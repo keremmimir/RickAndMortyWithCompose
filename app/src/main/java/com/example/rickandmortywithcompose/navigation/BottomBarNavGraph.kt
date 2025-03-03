@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.rickandmortywithcompose.navigation.screen.HomeScreens
 import com.example.rickandmortywithcompose.ui.screens.activity.MainViewModel
 import com.example.rickandmortywithcompose.ui.screens.favorite.FavoriteScreen
 import com.example.rickandmortywithcompose.ui.screens.home.HomeScreen

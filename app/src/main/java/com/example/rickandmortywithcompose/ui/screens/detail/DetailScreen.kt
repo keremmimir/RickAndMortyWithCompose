@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.rickandmortywithcompose.data.model.CharacterModel
-import com.example.rickandmortywithcompose.navigation.HomeScreens
+import com.example.rickandmortywithcompose.navigation.screen.HomeScreens
 import com.example.rickandmortywithcompose.ui.screens.activity.MainViewModel
 import com.example.rickandmortywithcompose.ui.theme.Background
 import com.example.rickandmortywithcompose.ui.theme.CardBackgroud

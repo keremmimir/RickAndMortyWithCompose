@@ -1,4 +1,4 @@
-package com.example.rickandmortywithcompose.navigation
+package com.example.rickandmortywithcompose.navigation.screen
 
 import com.example.rickandmortywithcompose.data.model.CharacterModel
 import kotlinx.serialization.Serializable
