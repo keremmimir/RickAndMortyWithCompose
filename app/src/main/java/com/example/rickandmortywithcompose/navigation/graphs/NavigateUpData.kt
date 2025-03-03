@@ -1,4 +1,4 @@
-package com.example.rickandmortywithcompose.navigation
+package com.example.rickandmortywithcompose.navigation.graphs
 
 import kotlin.reflect.KClass
 

@@ -3,8 +3,8 @@ package com.example.rickandmortywithcompose.ui.screens.activity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rickandmortywithcompose.data.model.CharacterModel
-import com.example.rickandmortywithcompose.navigation.NavigateUpData
-import com.example.rickandmortywithcompose.navigation.NavigationData
+import com.example.rickandmortywithcompose.navigation.graphs.NavigateUpData
+import com.example.rickandmortywithcompose.navigation.graphs.NavigationData
 import com.example.rickandmortywithcompose.navigation.screen.HomeScreens
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow

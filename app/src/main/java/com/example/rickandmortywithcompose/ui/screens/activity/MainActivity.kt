@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.rickandmortywithcompose.navigation.HomeNavGraph
+import com.example.rickandmortywithcompose.navigation.graphs.HomeNavGraph
 import com.example.rickandmortywithcompose.navigation.screen.HomeScreens
 import com.example.rickandmortywithcompose.ui.theme.RickAndMortyWithComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
