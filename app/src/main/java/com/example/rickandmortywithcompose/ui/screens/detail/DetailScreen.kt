@@ -5,7 +5,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.rickandmortywithcompose.data.model.CharacterModel
+import com.example.rickandmortywithcompose.navigation.HomeScreens
 import com.example.rickandmortywithcompose.ui.screens.activity.MainViewModel
 import com.example.rickandmortywithcompose.ui.theme.Background
 import com.example.rickandmortywithcompose.ui.theme.CardBackgroud
@@ -41,12 +41,9 @@ import com.example.rickandmortywithcompose.ui.theme.TextColor
 
 @Composable
 fun DetailScreen(
-    paddingValues: PaddingValues,
-    mainViewModel: MainViewModel
+    mainViewModel: MainViewModel,
+    arguments: HomeScreens.Detail
 ) {
-    //val detailItem by sharedViewModel.detailItem.collectAsState()
-//    Log.e("DETAIL","${detailItem}")
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -55,19 +52,16 @@ fun DetailScreen(
         Column(
             Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .background(Color.Red)
+                .padding(top = 32.dp)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             TopBar(
                 backOnClick = {
-               // navController.popBackStack()
-            })
-           /* detailItem?.let {
-                DetailCharacterImage(detailImage = it.image)
-                DetailCard(detailItem = detailItem!!)
-            }*/
+                    mainViewModel.navigateUp()
+                })
+            DetailCharacterImage(arguments.character.image)
+            DetailCard(arguments.character)
         }
     }
 }
@@ -82,7 +76,9 @@ fun TopBar(backOnClick: () -> Unit) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
 
-        IconButton(onClick = { backOnClick() }) {
+        IconButton(onClick = {
+            backOnClick()
+        }) {
             Icon(
                 imageVector = Icons.Default.ArrowBack,
                 "",

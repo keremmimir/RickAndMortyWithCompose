@@ -67,7 +67,7 @@ fun HomeScreen(
                 lazyPagingItems = lazyPagingItems,
                 favoriteList = emptyList(),
                 onDetailNavigate = { character ->
-//                    mainViewModel.navigateToDetailsScreen()
+                 mainViewModel.navigateToDetailsScreen(character = character)
                 }
             )
         }

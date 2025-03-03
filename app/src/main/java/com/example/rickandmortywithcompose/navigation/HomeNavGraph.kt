@@ -4,7 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
+import com.example.rickandmortywithcompose.data.model.CharacterModel
 import com.example.rickandmortywithcompose.ui.screens.activity.MainViewModel
+import com.example.rickandmortywithcompose.ui.screens.detail.DetailScreen
+import kotlin.reflect.typeOf
 
 @Composable
 fun HomeNavGraph(
@@ -20,12 +24,12 @@ fun HomeNavGraph(
             BottomBarScreen(mainViewModel = mainViewModel, navController = bottomBarNavController)
         }
 
-//        composable<HomeScreens.Upload>(
-//            typeMap = mapOf(typeOf<HomeComponentItemDetails>() to createGenericNavType<HomeComponentItemDetails>())
-//        ) {
-//            val arguments = it.toRoute<HomeScreens.Upload>()
-//            UploadScreen(homeViewModel, arguments = arguments)
-//        }
+        composable<HomeScreens.Detail>(
+            typeMap = mapOf(typeOf<CharacterModel>() to createGenericNavType<CharacterModel>())
+        ) {
+            val arguments = it.toRoute<HomeScreens.Detail>()
+            DetailScreen(mainViewModel = mainViewModel, arguments = arguments)
+        }
 
     }
 }

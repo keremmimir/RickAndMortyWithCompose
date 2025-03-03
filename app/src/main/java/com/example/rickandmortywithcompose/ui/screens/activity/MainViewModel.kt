@@ -1,29 +1,37 @@
 package com.example.rickandmortywithcompose.ui.screens.activity
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rickandmortywithcompose.data.model.CharacterModel
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.example.rickandmortywithcompose.navigation.HomeScreens
+import com.example.rickandmortywithcompose.navigation.NavigateUpData
+import com.example.rickandmortywithcompose.navigation.NavigationData
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class MainViewModel @Inject constructor(
+class MainViewModel  : ViewModel() {
 
-) : ViewModel() {
+    private val _navigationEvent = MutableSharedFlow<NavigationData>()
+    val navigationEvent: SharedFlow<NavigationData> = _navigationEvent
 
-    private val _navigationEvent = MutableSharedFlow<String>()
-
-    val navigationEvent: SharedFlow<String> = _navigationEvent
-
-    init {
-        Log.e("MainViewModel", "init MainViewModel")
-    }
+    private val _navigateUpEvent = MutableSharedFlow<NavigateUpData?>()
+    val navigateUpEvent: SharedFlow<NavigateUpData?> = _navigateUpEvent
 
     fun navigateToDetailsScreen(character: CharacterModel) {
-        viewModelScope.launch { _navigationEvent.emit("detail") }
+        viewModelScope.launch {
+            _navigationEvent.emit(
+                NavigationData(
+                    destination = HomeScreens.Detail(
+                        character = character
+                    )
+                )
+            )
+        }
+    }
+    fun navigateUp(navigateUpData: NavigateUpData? = null) {
+        viewModelScope.launch {
+            _navigateUpEvent.emit(navigateUpData)
+        }
     }
 }
