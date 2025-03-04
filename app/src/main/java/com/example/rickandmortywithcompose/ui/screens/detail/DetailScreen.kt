@@ -15,12 +15,16 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.rickandmortywithcompose.data.model.CharacterModel
@@ -38,12 +43,33 @@ import com.example.rickandmortywithcompose.ui.screens.activity.MainViewModel
 import com.example.rickandmortywithcompose.ui.theme.Background
 import com.example.rickandmortywithcompose.ui.theme.CardBackgroud
 import com.example.rickandmortywithcompose.ui.theme.TextColor
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun DetailScreen(
     mainViewModel: MainViewModel,
-    arguments: HomeScreens.Detail
+    arguments: HomeScreens.Detail,
+    detailViewModel: DetailViewModel = hiltViewModel()
 ) {
+    val uiState by detailViewModel.uiState.collectAsState()
+    val character = arguments.character
+
+    LaunchedEffect(character.id) {
+        detailViewModel.isFavorite(character.id)
+    }
+
+    LaunchedEffect(true) {
+        detailViewModel.uiEvent.collectLatest { event ->
+            when (event) {
+                DetailScreenEvent.NavigateUp -> {
+                    mainViewModel.navigateUp()
+                }
+
+                else -> Unit
+            }
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -58,16 +84,21 @@ fun DetailScreen(
         ) {
             TopBar(
                 backOnClick = {
-                    mainViewModel.navigateUp()
-                })
-            DetailCharacterImage(arguments.character.image)
-            DetailCard(arguments.character)
+                    detailViewModel.onEvent(DetailScreenEvent.OnClickBackButton)
+                },
+                favoriteOnClick = {
+                    detailViewModel.onEvent(DetailScreenEvent.OnClickFavoriteButton(character.id))
+                },
+                isFavorite = uiState.isFavorite
+            )
+            DetailCharacterImage(character.image)
+            DetailCard(character)
         }
     }
 }
 
 @Composable
-fun TopBar(backOnClick: () -> Unit) {
+fun TopBar(backOnClick: () -> Unit, favoriteOnClick: () -> Unit, isFavorite: Boolean) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -86,9 +117,9 @@ fun TopBar(backOnClick: () -> Unit) {
             )
         }
 
-        IconButton(onClick = {}) {
+        IconButton(onClick = { favoriteOnClick() }) {
             Icon(
-                imageVector = Icons.Default.FavoriteBorder,
+                imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                 "",
                 tint = Color.White
             )

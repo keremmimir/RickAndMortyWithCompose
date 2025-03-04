@@ -3,9 +3,11 @@ package com.example.rickandmortywithcompose.data.repository.remote
 import androidx.paging.PagingData
 import com.example.rickandmortywithcompose.data.model.ApiCharacterResponse
 import com.example.rickandmortywithcompose.data.model.CharacterModel
+import com.example.rickandmortywithcompose.data.model.Result
 import kotlinx.coroutines.flow.Flow
 
 interface ApiRepository {
     suspend fun getCharacters(page: Int, name: String?): ApiCharacterResponse
     fun charactersPagingSource(name: String?): Flow<PagingData<CharacterModel>>
+    suspend fun getMultipleCharacters(ids: List<Int>) : Result<List<CharacterModel>>
 }

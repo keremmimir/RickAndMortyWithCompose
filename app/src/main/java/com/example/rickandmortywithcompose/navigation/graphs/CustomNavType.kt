@@ -31,30 +31,3 @@ inline fun <reified T : Any> createGenericNavType(isNullableAllowed: Boolean = f
         }
     }
 }
-
-
-inline fun <reified T : Any> createGenericNavTypeList(): NavType<List<T>> {
-    return object : NavType<List<T>>(false) {
-
-        override fun get(bundle: Bundle, key: String): List<T> {
-            val jsonString = bundle.getString(key)
-            return if (jsonString.isNullOrEmpty()) {
-                emptyList()
-            } else {
-                Json.decodeFromString(jsonString)
-            }
-        }
-
-        override fun parseValue(value: String): List<T> {
-            return Json.decodeFromString(Uri.decode(value))
-        }
-
-        override fun serializeAsValue(value: List<T>): String {
-            return Uri.encode(Json.encodeToString(value))
-        }
-
-        override fun put(bundle: Bundle, key: String, value: List<T>) {
-            bundle.putString(key, Json.encodeToString(value))
-        }
-    }
-}

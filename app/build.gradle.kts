@@ -3,8 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
-    id ("kotlin-kapt")
-    id ("com.google.dagger.hilt.android")
+    alias(libs.plugins.kotlinAndroidKsp)
+    alias(libs.plugins.hiltAndroid)
 }
 
 android {
@@ -40,9 +40,6 @@ android {
     buildFeatures {
         compose = true
     }
-    kapt {
-        correctErrorTypes = true
-    }
 }
 
 
@@ -60,13 +57,13 @@ dependencies {
     implementation (libs.retrofit)
     implementation (libs.converter.gson)
     implementation (libs.glide)
-    implementation (libs.hilt.android)
-    kapt (libs.hilt.compiler)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation (libs.androidx.hilt.navigation.compose)
     implementation (libs.androidx.paging.compose)
     implementation(libs.coil.compose)
-    implementation ("com.github.bumptech.glide:compose:1.0.0-beta01")
+    implementation (libs.compose)
+    implementation(libs.bundles.room)
+    ksp(libs.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -78,4 +75,8 @@ dependencies {
     // Navigation & Serialization
     implementation(libs.navigation.compose)
     implementation(libs.bundles.serialization)
+
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
 }

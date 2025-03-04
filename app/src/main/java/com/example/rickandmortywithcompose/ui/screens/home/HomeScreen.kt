@@ -21,9 +21,10 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.rickandmortywithcompose.ui.component.CharacterList
 import com.example.rickandmortywithcompose.ui.component.SearchTextField
 import com.example.rickandmortywithcompose.ui.screens.activity.MainViewModel
-import com.example.rickandmortywithcompose.ui.screens.home.homeEvent.HomeScreenEvent
+import com.example.rickandmortywithcompose.ui.screens.favorite.FavoriteScreenEvent
 import com.example.rickandmortywithcompose.ui.theme.Background
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun HomeScreen(
@@ -34,6 +35,18 @@ fun HomeScreen(
     val lazyPagingItems = homeScreenViewModel.characterPager.collectAsLazyPagingItems()
     val uiState by homeScreenViewModel.uiState.collectAsState()
     val listState = rememberLazyGridState()
+
+    LaunchedEffect(true) {
+        homeScreenViewModel.uiEvent.collectLatest { event ->
+            when (event) {
+                is FavoriteScreenEvent.NavigateToDetail -> {
+                    mainViewModel.navigateToDetailsScreen(event.character)
+                }
+
+                else -> Unit
+            }
+        }
+    }
 
     LaunchedEffect(uiState.searchQueryText) {
         delay(100)
@@ -65,9 +78,9 @@ fun HomeScreen(
             CharacterList(
                 listState = listState,
                 lazyPagingItems = lazyPagingItems,
-                favoriteList = emptyList(),
+                favoriteList = null,
                 onDetailNavigate = { character ->
-                 mainViewModel.navigateToDetailsScreen(character = character)
+                    homeScreenViewModel.handleEvent(HomeScreenEvent.OnClickedCharacter(character))
                 }
             )
         }
