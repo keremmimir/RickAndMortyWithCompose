@@ -1,4 +1,4 @@
-package com.example.rickandmortywithcompose.navigation.graphs
+package com.example.rickandmortywithcompose.navigation
 
 import android.net.Uri
 import android.os.Bundle

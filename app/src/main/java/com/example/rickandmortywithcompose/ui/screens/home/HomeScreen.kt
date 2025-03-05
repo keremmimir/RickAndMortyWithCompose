@@ -1,5 +1,10 @@
 package com.example.rickandmortywithcompose.ui.screens.home
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,7 +17,9 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -35,6 +42,9 @@ fun HomeScreen(
     val lazyPagingItems = homeScreenViewModel.characterPager.collectAsLazyPagingItems()
     val uiState by homeScreenViewModel.uiState.collectAsState()
     val listState = rememberLazyGridState()
+    val isSearchVisible by remember {
+        derivedStateOf { listState.firstVisibleItemIndex == 0 }
+    }
 
     LaunchedEffect(true) {
         homeScreenViewModel.uiEvent.collectLatest { event ->
@@ -64,16 +74,22 @@ fun HomeScreen(
                 .padding(paddingValues),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            SearchTextField(
-                query = uiState.searchQueryText,
-                onSearchQueryChange = { query ->
-                    homeScreenViewModel.handleEvent(
-                        HomeScreenEvent.SearchQueryChanged(
-                            query
+            AnimatedVisibility(
+                visible = isSearchVisible,
+                enter = fadeIn() + expandVertically(),
+                exit = fadeOut() + shrinkVertically()
+            ) {
+                SearchTextField(
+                    query = uiState.searchQueryText,
+                    onSearchQueryChange = { query ->
+                        homeScreenViewModel.handleEvent(
+                            HomeScreenEvent.SearchQueryChanged(
+                                query
+                            )
                         )
-                    )
-                }
-            )
+                    }
+                )
+            }
             Spacer(Modifier.height(15.dp))
             CharacterList(
                 listState = listState,

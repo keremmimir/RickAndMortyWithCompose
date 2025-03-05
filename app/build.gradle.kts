@@ -44,7 +44,6 @@ android {
 
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -54,16 +53,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation (libs.material3)
-    implementation (libs.retrofit)
-    implementation (libs.converter.gson)
-    implementation (libs.glide)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation (libs.androidx.hilt.navigation.compose)
-    implementation (libs.androidx.paging.compose)
     implementation(libs.coil.compose)
-    implementation (libs.compose)
-    implementation(libs.bundles.room)
-    ksp(libs.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -72,11 +62,37 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    //Viewmodel
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+    //Navigation
+    implementation (libs.androidx.hilt.navigation.compose)
+
+    //Paging
+    implementation (libs.androidx.paging.compose)
+
+    //Glide
+    implementation (libs.compose)
+    implementation (libs.glide)
+
+    //Retrofit
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+
+    //Room
+    implementation(libs.bundles.room)
+    ksp(libs.room.compiler)
+
     // Navigation & Serialization
     implementation(libs.navigation.compose)
     implementation(libs.bundles.serialization)
 
+    //Hilt
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+
+    //Chucker
+    debugImplementation (libs.library)
+    releaseImplementation (libs.library.no.op)
 }

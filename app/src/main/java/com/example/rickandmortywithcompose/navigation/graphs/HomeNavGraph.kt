@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.example.rickandmortywithcompose.data.model.CharacterModel
+import com.example.rickandmortywithcompose.navigation.createGenericNavType
 import com.example.rickandmortywithcompose.navigation.screen.HomeScreens
 import com.example.rickandmortywithcompose.ui.screens.activity.MainViewModel
 import com.example.rickandmortywithcompose.ui.screens.detail.DetailScreen
