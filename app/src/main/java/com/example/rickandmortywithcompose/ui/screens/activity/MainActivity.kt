@@ -31,7 +31,6 @@ class MainActivity : ComponentActivity() {
             val navController: NavHostController = rememberNavController()
             val bottomBarNavController: NavHostController = rememberNavController()
 
-
             LaunchedEffect(Unit) {
                 lifecycleScope.launch {
                     repeatOnLifecycle(Lifecycle.State.STARTED) {

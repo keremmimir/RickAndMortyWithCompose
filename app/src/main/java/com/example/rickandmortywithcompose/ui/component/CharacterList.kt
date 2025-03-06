@@ -41,8 +41,8 @@ fun CharacterList(
                     val character = lazyPagingItems[index]
                     character?.let {
                         CharacterListItem(
-                            characterItem = it,
-                            detailNavigate = { onDetailNavigate(it) })
+                            characterItem = character,
+                            detailNavigate = { onDetailNavigate(character) })
                     }
                 }
                 when {

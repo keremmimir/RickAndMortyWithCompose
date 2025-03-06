@@ -32,6 +32,5 @@ fun HomeNavGraph(
             val arguments = it.toRoute<HomeScreens.Detail>()
             DetailScreen(mainViewModel = mainViewModel, arguments = arguments)
         }
-
     }
 }
