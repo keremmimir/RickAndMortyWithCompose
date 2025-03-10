@@ -14,9 +14,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.example.rickandmortywithcompose.data.model.CharacterModel
+import com.example.rickandmortywithcompose.ui.theme.TextColor
 
 @Composable
 fun CharacterList(
@@ -28,13 +30,14 @@ fun CharacterList(
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
+
         LazyVerticalGrid(
             state = listState,
             columns = GridCells.Fixed(2),
             modifier = Modifier.fillMaxSize(),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(16.dp)
+            contentPadding = PaddingValues(16.dp),
         ) {
             if (lazyPagingItems != null) {
                 items(lazyPagingItems.itemCount) { index ->
@@ -48,15 +51,10 @@ fun CharacterList(
                 when {
                     lazyPagingItems.loadState.append is LoadState.Loading -> {
                         item(span = { GridItemSpan(maxLineSpan) }) {
-                            LoadingIndicator()
+                           // LoadingIndicator()
                         }
                     }
 
-                    lazyPagingItems.loadState.refresh is LoadState.Loading -> {
-                        item(span = { GridItemSpan(maxLineSpan) }) {
-                            LoadingIndicator()
-                        }
-                    }
                 }
             } else if (favoriteList?.isNotEmpty() == true) {
                 items(favoriteList.size) { index ->
@@ -74,7 +72,7 @@ fun CharacterList(
                     .padding(16.dp),
                 contentAlignment = Alignment.Center
             ) {
-                Text("Empty List")
+                Text("Empty Favorite List", color = TextColor, fontSize = 24.sp)
             }
         }
     }

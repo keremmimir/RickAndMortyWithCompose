@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.example.rickandmortywithcompose.data.repository.remote.ApiRepositoryImpl
-import com.example.rickandmortywithcompose.ui.screens.favorite.FavoriteScreenEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -26,8 +25,8 @@ class HomeScreenViewModel @Inject constructor(private val apiRepositoryImpl: Api
     private val _uiState = MutableStateFlow(HomeScreenState())
     val uiState = _uiState.asStateFlow()
 
-    private val _uiEvent = MutableSharedFlow<FavoriteScreenEvent>()
-    val uiEvent: SharedFlow<FavoriteScreenEvent> = _uiEvent
+    private val _uiEvent = MutableSharedFlow<HomeScreenEvent>()
+    val uiEvent: SharedFlow<HomeScreenEvent> = _uiEvent
 
     @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     val characterPager = uiState.map { it.searchQueryText }
@@ -47,7 +46,7 @@ class HomeScreenViewModel @Inject constructor(private val apiRepositoryImpl: Api
 
             is HomeScreenEvent.OnClickedCharacter -> {
                 viewModelScope.launch {
-                    _uiEvent.emit(FavoriteScreenEvent.NavigateToDetail(event.character))
+                    _uiEvent.emit(HomeScreenEvent.NavigateToDetail(event.character))
                 }
             }
 

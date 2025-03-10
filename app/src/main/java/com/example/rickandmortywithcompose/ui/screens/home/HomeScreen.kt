@@ -24,11 +24,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.rickandmortywithcompose.ui.component.CharacterList
+import com.example.rickandmortywithcompose.ui.component.LoadingIndicator
 import com.example.rickandmortywithcompose.ui.component.SearchTextField
 import com.example.rickandmortywithcompose.ui.screens.activity.MainViewModel
-import com.example.rickandmortywithcompose.ui.screens.favorite.FavoriteScreenEvent
 import com.example.rickandmortywithcompose.ui.theme.Background
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -49,7 +50,7 @@ fun HomeScreen(
     LaunchedEffect(true) {
         homeScreenViewModel.uiEvent.collectLatest { event ->
             when (event) {
-                is FavoriteScreenEvent.NavigateToDetail -> {
+                is HomeScreenEvent.NavigateToDetail -> {
                     mainViewModel.navigateToDetailsScreen(event.character)
                 }
 
@@ -91,14 +92,19 @@ fun HomeScreen(
                 )
             }
             Spacer(Modifier.height(15.dp))
-            CharacterList(
-                listState = listState,
-                lazyPagingItems = lazyPagingItems,
-                favoriteList = null,
-                onDetailNavigate = { character ->
-                    homeScreenViewModel.handleEvent(HomeScreenEvent.OnClickedCharacter(character))
-                }
-            )
+
+            if (lazyPagingItems.loadState.refresh is LoadState.Loading) {
+                LoadingIndicator()
+            } else {
+                CharacterList(
+                    listState = listState,
+                    lazyPagingItems = lazyPagingItems,
+                    favoriteList = null,
+                    onDetailNavigate = { character ->
+                        homeScreenViewModel.handleEvent(HomeScreenEvent.OnClickedCharacter(character))
+                    }
+                )
+            }
         }
     }
 }

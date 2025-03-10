@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -39,35 +40,42 @@ class FavoriteScreenViewModel @Inject constructor(
 
     fun getAllFavoriteCharacters() {
         _uiState.value = _uiState.value.copy(isLoading = true)
-        viewModelScope.launch {
 
+        viewModelScope.launch {
             val favoriteCharacterIds = roomRepositoryImpl.getFavoriteCharacterIds()
             if (favoriteCharacterIds.isNotEmpty()) {
                 when (val response =
                     apiRepositoryImpl.getMultipleCharacters(favoriteCharacterIds)) {
-                    is Result.Success -> _uiState.value =
-                        _uiState.value.copy(
+                    is Result.Success -> _uiState.update {
+                        it.copy(
                             favoriteCharacterList = response.data,
                             isLoading = false
                         )
+                    }
 
-                    is Result.Error -> _uiState.value =
-                        _uiState.value.copy(
-                            errorMessage = response.message,
-                            isLoading = false
-                        )
+                    is Result.Error ->
+                        _uiState.update {
+                            it.copy(
+                                errorMessage = response.message,
+                                isLoading = false
+                            )
+                        }
 
-                    Result.Loading -> _uiState.value =
-                        _uiState.value.copy(isLoading = true)
+                    Result.Loading ->
+                        _uiState.update {
+                            it.copy(
+                                isLoading = true
+                            )
+                        }
                 }
             } else {
-                _uiState.value =
-                    _uiState.value.copy(
+                _uiState.update {
+                    it.copy(
                         favoriteCharacterList = emptyList(),
                         isLoading = false
                     )
+                }
             }
-
         }
     }
 }
