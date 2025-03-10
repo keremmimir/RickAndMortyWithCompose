@@ -1,7 +1,6 @@
 package com.example.rickandmortywithcompose.data.repository.local
 
 import com.example.rickandmortywithcompose.data.datasource.local.dao.CharacterDao
-import com.example.rickandmortywithcompose.data.model.FavoriteCharacter
 import javax.inject.Inject
 
 class RoomRepositoryImpl @Inject constructor(private val characterDao: CharacterDao) : RoomRepository {
